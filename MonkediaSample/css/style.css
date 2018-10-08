@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:400,700');
+/* MAIN CSS */
+body {
+background-color: #FFF;
+margin:20px;
+}
+.container {
+border: 1px solid #ccc;
+padding:20px 40px;
+background: #FFF;
+}
+h1, h2, h3 {
+text-align:center;
+/* text-transform: uppercase; */
+}
+h2, h3, h4, h5 {
+color:#3c93b6;
+}
+h1 {
+color:#56647c;
+font-size:5.2rem;
+font-weight: bold;
+}
+h1.shrink {
+font-size:2.5em;
+
+}
+h2 {
+color:#3c93b6;
+font-weight:normal;
+font-size:2.5rem;
+}
+h3 {
+padding-bottom:5px;
+font-family: 'Roboto Slab', serif;
+font-weight: 400;
+font-size:2.0rem;
+}
+h4 {
+font-family: 'Roboto Slab', serif;
+font-weight: 700;
+}
+h5 {
+font-weight: bold;
+border-bottom: 1px solid #3c93b6;
+padding-bottom: 5px;
+font-size: 2.0rem;
+}
+.float-right {
+	float:right;
+}
+table.login {
+width:260px;
+margin:0 auto;
+}
+table {
+    width: 100%;
+}
+th, td {
+    text-align: left;
+    padding: 2px 8px;
+    border: 1px solid #ccc;
+}
+td {
+vertical-align: top;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+tr:hover {background-color: #e6f3ff;}
+/* HEADER STYLES */
+.logo_img {
+margin: 0 auto;
+display: block;
+}
+p.title {
+font-size: 1.5rem;
+font-weight:bold;
+color:#88B04B;
+margin: 0 7px 5px 0;
+}
+p.title span {
+color:#000;
+font-weight: normal;
+}
+/* ERROR STYLES */
+.error {color: #FF0000;}
+/* ALTER STYLES */
+.btn-changer {
+background: #3b7cca;
+font-weight: bold;
+font-size: 17px;
+padding: 10px;
+width: 50%;
+color: #fff;
+margin: 20px auto 0;
+border: 1px solid #fff;
+display:block;
+}
+
+/* FOOTER STYLES */
+footer {
+text-align: center;
+padding: 10px 0;
+font-size: 1.2rem;
+}
+/*********************
+	FIXES
+*********************/
+@media only screen and (max-width: 500px) {
+	.btn-changer {
+	width:100% !important;
+	}
+	table.login {
+		width:100%;
+	}
+}
