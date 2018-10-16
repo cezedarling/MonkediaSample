@@ -9,7 +9,7 @@ if(isset($_SESSION['SESS_LOGGEDIN']) == FALSE) {
 <!DOCTYPE HTML>  
 <html lang="en">
 <head>
-<title>Ceze Sample</title>
+<title>Sample</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -22,7 +22,7 @@ if(isset($_SESSION['SESS_LOGGEDIN']) == FALSE) {
 <div class="container">
 
 <a href="index.php"><img class="logo_img img-fluid mb-3 mb-lg-0" src="images/logo.png"/></a>
-<h1>CeZe Sample</h1>
+<h1>Sample</h1>
 <h2>Client View</h2>
 <?php
 if(isset($_SESSION['SESS_LOGGEDIN']) == TRUE) {

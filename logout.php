@@ -2,8 +2,12 @@
 	session_start();
 	require ("config.php");
 
-	session_unset("SESS_LOGGEDIN");
+// 	session_unset("SESS_LOGGEDIN");
+// 	session_unset("SESS_ID");
 	
-	header("Location: " . $basedir . "login.php");
+	session_destroy();
+
+	
+	header("Location: " . $basedir . "index.php");
 ?>
 	

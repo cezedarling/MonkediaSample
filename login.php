@@ -22,36 +22,35 @@ if(isset($_SESSION['SESS_LOGGEDIN']) == TRUE) {
 <body>
 
 <a href="index.php"><img class="logo_img img-fluid mb-3 mb-lg-0" src="images/logo.png"/></a>
-<h1>CeZe Sample</h1>
+<h1>Sample</h1>
 <h2>LOGIN</h2>
 
 <hr>
 <?php
 require("db.php");
 	
-	if($_POST['submit']) {
+	if(isset($_POST['submit'])) {
 	
-	if(($_POST['user'] == "") || ($_POST['password'] == "")) {
+	if( (empty($_POST['user'])) || (empty($_POST['password'])) ) {
 	$error = "Username and Password required!";
-	}
+	} else if (!empty($_POST['user'])) {
 		$loginsql = "SELECT * FROM users WHERE username = '" . $_POST['user'] . "' AND password = '" . md5($_POST['password']) . "'";
 		$loginres =mysqli_query($db, $loginsql);
 		$numrows = mysqli_num_rows($loginres);
-		
-				
+						
 		if($numrows == 1) {
 			$loginrow = mysqli_fetch_assoc($loginres);
 			
-			$_SESSION['SESS_LOGGEDIN'] = $loginrow['username'] . $loginrow['id'];
-
-// 			header("Location: " . $basedir . "index.php");
-echo "<script>window.location.href = '" . $basedir . "'</script>";
-// echo "<meta http-equiv='refresh' content='2;url=" . $basedir . "index.php'>";
-		} else if ($loginrow['username'] != $_POST['user']) {
+			$_SESSION['SESS_LOGGEDIN'] = $loginrow['username']; 
+			$_SESSION['SESS_ID'] =$loginrow['id'];
+			
+			header("Location: " . $basedir . "index.php");
+// echo "<script>window.location.href = '" . $basedir . "'</script>";
+		} else {
 			$wronguser = "Wrong Username or Password!";
 		}
 	}
-
+}
 	if(isset($error)) {
 		echo "<p class='text-center error'>" . $error . "</p>";
 	}
