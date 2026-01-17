@@ -1,6 +1,5 @@
 <?php
-session_start();
-require ("config.php");
+require __DIR__ . "/incs/bootstrap.php";
 
 if(isset($_SESSION['SESS_LOGGEDIN']) == FALSE) {
 	header("Location: " . $basedir . "login.php");

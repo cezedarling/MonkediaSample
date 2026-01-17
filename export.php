@@ -1,12 +1,12 @@
 <?php
-session_start();
-require ("config.php");
+require __DIR__ . "/incs/bootstrap.php";
+
+$database = new Database($dbConfig);
+$clientRepository = new ClientRepository($database);
 
 if(isset($_SESSION['SESS_LOGGEDIN']) == FALSE) {
 	header("Location: " . $basedir . "login.php");
 }
-
-require ("db.php");
 
 // output headers so that the file is downloaded rather than displayed
 header('Content-Type: text/csv; charset=utf-8');
@@ -25,11 +25,12 @@ fputcsv($output, array(
 ));
 
 // FETCH THE DATA
-$pullsql = "SELECT * FROM clients ORDER by id";
-$pullresult = mysqli_query($db, $pullsql);
+$clients = $clientRepository->fetchAll();
 
 // loop over the rows, outputting them
-while ($pullrow = mysqli_fetch_assoc($pullresult)) fputcsv($output, $pullrow);
+foreach ($clients as $pullrow) {
+    fputcsv($output, $pullrow);
+}
 
 
 ?>

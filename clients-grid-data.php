@@ -1,10 +1,8 @@
 <?php
-require("db.php");
+require __DIR__ . "/incs/bootstrap.php";
 
-$conn = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbdatabase) or die("Connection failed: " . mysqli_connect_error());
-
-/* Database connection end */
-
+$database = new Database($dbConfig);
+$clientRepository = new ClientRepository($database);
 
 // storing  request (ie, get/post) global array to a variable  
 $requestData= $_REQUEST;
@@ -17,27 +15,31 @@ $columns = array(
 );
 
 // getting total number records without any search
-$sql = "SELECT id, name ";
-$sql.=" FROM clients";
-$query=mysqli_query($conn, $sql) or die("clients-grid-data.php: get clients");
-$totalData = mysqli_num_rows($query);
+$totalData = $clientRepository->countAll();
 $totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
-
-$sql = "SELECT id, name ";
-$sql.=" FROM clients WHERE 1=1";
-if( !empty($requestData['search']['value']) ) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
-	$sql.=" AND ( id LIKE '".$requestData['search']['value']."%' ";    
-	$sql.=" OR name LIKE '".$requestData['search']['value']."%' )";
+$searchValue = '';
+if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
+	$searchValue = $requestData['search']['value'];
 }
-$query=mysqli_query($conn, $sql) or die("clients-grid-data.php: get clients");
-$totalFiltered = mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result. 
-$sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."  LIMIT ".$requestData['start']." ,".$requestData['length']."   ";
+
+$totalFiltered = $clientRepository->countFiltered($searchValue); // when there is a search parameter then we have to modify total number filtered rows as per search result. 
 /* $requestData['order'][0]['column'] contains colmun index, $requestData['order'][0]['dir'] contains order such as asc/desc  */	
-$query=mysqli_query($conn, $sql) or die("clients-grid-data.php: get clients");
+$orderColumn = $columns[$requestData['order'][0]['column']];
+$orderDirection = $requestData['order'][0]['dir'];
+$start = (int) $requestData['start'];
+$length = (int) $requestData['length'];
+
+$clients = $clientRepository->fetchPaginated(
+	$searchValue,
+	$orderColumn,
+	$orderDirection,
+	$start,
+	$length
+);
 
 $data = array();
-while( $row=mysqli_fetch_array($query) ) {  // preparing an array
+foreach ($clients as $row) {  // preparing an array
 	$nestedData=array(); 
 
 	$nestedData[] = "<a href='view_client.php?id=" .$row["id"]. "' target='_self\'> VIEW</a>";

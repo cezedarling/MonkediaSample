@@ -1,6 +1,8 @@
 <?php
-session_start();
-require ("config.php");
+require __DIR__ . "/incs/bootstrap.php";
+
+$database = new Database($dbConfig);
+$clientRepository = new ClientRepository($database);
 
 if(isset($_SESSION['SESS_LOGGEDIN']) == FALSE) {
 	header("Location: " . $basedir . "login.php");
@@ -35,14 +37,15 @@ if(isset($_SESSION['SESS_LOGGEDIN']) == TRUE) {
 <h5>Client:</h5>
 
 <?php
-require ("db.php");
-$id = $_GET['id'];
-$viewquery = "SELECT * FROM clients WHERE id = $id LIMIT 1";
-$viewresult = mysqli_query($db, $viewquery);
-$viewrow = mysqli_fetch_assoc($viewresult);
+$id = (int) $_GET['id'];
+$viewrow = $clientRepository->findById($id);
 
-echo "<p class=\"title\">Client ID: <span>" . $viewrow['id'] . "</span></p>";
+if ($viewrow) {
+	echo "<p class=\"title\">Client ID: <span>" . $viewrow['id'] . "</span></p>";
 
-echo "<p class=\"title\">Name: <span>" . $viewrow['name'] . "</span></p>";
+	echo "<p class=\"title\">Name: <span>" . $viewrow['name'] . "</span></p>";
+} else {
+	echo "<p class=\"title\">Client not found.</p>";
+}
         
 require("incs/footer.php");

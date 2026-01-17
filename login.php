@@ -1,6 +1,8 @@
 <?php
-session_start();
-require ("config.php");
+require __DIR__ . "/incs/bootstrap.php";
+
+$database = new Database($dbConfig);
+$auth = new Auth($database);
 
 if(isset($_SESSION['SESS_LOGGEDIN']) == TRUE) {
 	header("Location: " . $basedir . "index.php");
@@ -27,22 +29,15 @@ if(isset($_SESSION['SESS_LOGGEDIN']) == TRUE) {
 
 <hr>
 <?php
-require("db.php");
-	
-	if(isset($_POST['submit'])) {
-	
+if(isset($_POST['submit'])) {
 	if( (empty($_POST['user'])) || (empty($_POST['password'])) ) {
 	$error = "Username and Password required!";
 	} else if (!empty($_POST['user'])) {
-		$loginsql = "SELECT * FROM users WHERE username = '" . $_POST['user'] . "' AND password = '" . md5($_POST['password']) . "'";
-		$loginres =mysqli_query($db, $loginsql);
-		$numrows = mysqli_num_rows($loginres);
+		$user = $auth->attemptLogin($_POST['user'], $_POST['password']);
 						
-		if($numrows == 1) {
-			$loginrow = mysqli_fetch_assoc($loginres);
-			
-			$_SESSION['SESS_LOGGEDIN'] = $loginrow['username']; 
-			$_SESSION['SESS_ID'] =$loginrow['id'];
+		if($user !== null) {
+			$_SESSION['SESS_LOGGEDIN'] = $user['username']; 
+			$_SESSION['SESS_ID'] = $user['id'];
 			
 			header("Location: " . $basedir . "index.php");
 // echo "<script>window.location.href = '" . $basedir . "'</script>";
