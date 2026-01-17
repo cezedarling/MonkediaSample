@@ -8,9 +8,8 @@ I used straight forward procedural PHP to code this. It was a fairly simple task
 The base URL will need to be updated in the config.php file if you take the files out of the folder or don't run on localhost/
 
 Also,
-The db.php file would need to be updated to reflect proper host, username, password and Database name.
+The db.php file would need to be updated to reflect proper host, username, password and Database name (now returned as a config array for the OOP classes).
 
 Thanks.
 
 CeZe
-
